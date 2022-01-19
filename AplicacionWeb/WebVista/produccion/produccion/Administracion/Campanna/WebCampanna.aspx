@@ -7,7 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     
     
-        <asp:HiddenField ID="HfAutorId" runat="server" />
+        <asp:HiddenField ID="HfId" runat="server" />
        
      <asp:UpdatePanel ID="UpdatePanel2" runat="server">
         <ContentTemplate>
@@ -30,7 +30,7 @@
    
 
         <div class="right_col" role="main">
-            <p>Autores registrados</p>
+            <p>Campañas registradas</p>
             <div class="">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -38,76 +38,48 @@
                             <div class="x_content">
                                 <div class="form-horizontal form-label-left">
                                     <div class="x_title">
-                                        <h2>Autores</h2>
+                                        <h2>Campos a importar</h2>
                                         <ul class="nav navbar-right panel_toolbox">
                                             <li class="dropdown"></li>
                                         </ul>
                                         <div class="clearfix"></div>
                                     </div>
-                                    <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Autor">
-                                            Nombre completo<span class="required">*</span>
-                                        </label>
+
+
+
+                                     <div class="item form-group">
+                                        
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <asp:TextBox ID="TxtNombre" runat="server" class="form-control col-md-7 col-xs-12" MaxLength="50"
-                                                ToolTip="Nombre del Autor" placeholder="Wish" required="required"></asp:TextBox>
+                                           
+
+                                            <asp:CheckBoxList ID="CbCargar" runat="server" RepeatDirection="Vertical" >
+                                                <asp:ListItem Value="1" Text="Nombre"> Nombre </asp:ListItem>
+                                                <asp:ListItem Value="2" Text="Apellido">Apellido</asp:ListItem>
+                                                <asp:ListItem Value="3" Text="Direccion" >Direccion</asp:ListItem>
+                                                <asp:ListItem Value="1" Text="Telefono">Telefono</asp:ListItem>
+                                            </asp:CheckBoxList>
+                                        
                                         </div>
                                     </div>
 
-                                    <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Autor">
-                                            Fecha de Nacimiento<span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                  
 
-                                            <asp:TextBox ID="TxtFechaNacimiento" runat="server" placeholder="dd/mm/yyyy" Format="dd/MM/yyyy" CssClass="form-control"
-                                                ToolTip="Fecha de nacimiento  (Dia/Mes/Año)"
-                                                MaxLength="10"></asp:TextBox>
 
-                                            <ajaxtoolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="TxtFechaNacimiento"
-                                                Format="MM/dd/yyyy"></ajaxtoolkit:CalendarExtender>
-                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server"
-                                                ControlToValidate="TxtFechaNacimiento" CssClass="mensaje" ErrorMessage="***" ForeColor="Red"
-                                                ValidationGroup="GUARDAR">
-                                            </asp:RequiredFieldValidator>
-                                        </div>
-                                    </div>
 
-                                    <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Autor">
-                                            Ciudad de procedencia <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <asp:TextBox ID="TxtCiudad" runat="server" class="form-control col-md-7 col-xs-12" MaxLength="50"
-                                                ToolTip="Ciudad" placeholder="Popa..." required="required"></asp:TextBox>
-                                        </div>
-                                    </div>
 
-                                    <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Autor">
-                                            Mail<span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <asp:TextBox ID="TxtMail" runat="server" class="form-control col-md-7 col-xs-12" MaxLength="1000" ToolTip="ejemplo@..."
-                                                placeholder="ejemplo@..." required="required"></asp:TextBox>
-                                        </div>
-                                    </div>
+
+
+
+                                   
+
+                                   
 
                                     <div class="ln_solid"></div>
 
                                     <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Autor">
-                                            Buscar Autor
-                                        </label>
-
+                                            
                                         <asp:FileUpload ID="FileUpload1" runat="server" />
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <asp:DropDownList ID="DdlAutor" runat="server" AutoPostBack="true" AppendDataBoundItems="True" CssClass="form-control"
-                                            ToolTip="Lista de Autores" OnSelectedIndexChanged="DdlAutor_SelectedIndexChanged">
-                                        </asp:DropDownList>
-                                       
-                                            </div>
-                                         
+                                                                                
                                     </div>
 
                                     <div class="ln_solid"></div>

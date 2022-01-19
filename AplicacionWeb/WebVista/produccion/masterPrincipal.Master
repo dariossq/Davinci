@@ -108,7 +108,7 @@
                         </div>
                         <div class="profile_info">
                            
-                            <h2>Biblioteca
+                            <h2>Campaña
                             </h2>
                              <span>_________</span>
                         </div>
@@ -123,33 +123,15 @@
                             <h3>Menú Principal</h3>
                             <ul class="nav side-menu">
 
-                                <!-- Menu Autor -->
+                                <!-- Menu Campaña -->
                                 <li><a runat="server" id="A1"><i class="fa fa-home"></i>Gestión de Campañas <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                                 <li class="sub_menu" runat="server" id="Li1"><a href="../Campanna/WebCampanna.aspx">Gestion de Campañas</a>
                                                 </li>
                                       </ul>
                                 </li>
-                                <!--FIN Menu Autor -->    
-
-                                <!-- Menu Libro -->
-                                <li><a runat="server" id="A2"><i class="fa fa-home"></i>Gestión de Libros <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                                <li class="sub_menu" runat="server" id="Li2"><a href="../Libro/WebLibro.aspx">Gestion de Autores</a>
-                                                </li>
-                                      </ul>
-                                </li>
-                                <!--FIN Menu Libro -->    
-
-
-                                <!-- Menu Biblioteca Buscar -->
-                                <li><a runat="server" id="zmenuBiblioteca"><i class="fa fa-home"></i>Gestion de busquedas <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                                <li class="sub_menu" runat="server" id="zmenuViajeConsulta"><a href="../Buscar/WebBuscar.aspx">Gestor de busqueda</a>
-                                                </li>
-                                      </ul>
-                                </li>
-                                <!--FIN Menu Biblioteca Buscar-->                          
+                                <!--FIN Menu Campaña -->   
+                                                      
                             </ul>
                         </div>
                     </div>

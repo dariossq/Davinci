@@ -27,46 +27,48 @@ namespace Infrastruture.RCompra
         /// </summary>
         /// <param name="Campanna"></param>
         /// <returns></returns>
-        public void Save(DataTable Campanna)
+        public Boolean Save(DataTable Campanna)
         {
             try
             {
                 string TrabajoCod = "0";
 
-                if (Campanna.Rows.Count > 1)
+                if (Campanna.Rows.Count > 0)
                 {
                     int n = 0;
-                    do
-                    {
-                        Console.Write(n);
-                        
-
+                    while (n < Campanna.Rows.Count) 
+                        {                        
                         CCompra compana = new CCompra(Campanna, n);
                         DataSet Ds = new DataSet();
                         using (OracleConnection conn = new OracleConnection(this.connectionString))
                         {
                             try
                             {
-                                //"VALUES ('" + com.CampannasApellidos + "', '" + com.CampannasDirecion + "'  , " + com.CampannasNombre + " )";
                                 conn.Open();
                                 OracleCommand command = conn.CreateCommand();
                                 command.CommandText = "insert into CAMPANNAS ( CAMPANNASNOMBRE, CAMPANNASAPELLIDOS,CAMPANNASTELEFONO,CAMPANNASDIRECCION,CAMPANNAPRODUCTO,CAMPANNACODIGO)" +
                                     "VALUES ('" + compana.CampannasNombre + "', '" + compana.CampannasNombre + "'  , '" + compana.CampannasTelefono + "' , '" + compana.CampannasDirecion + "', '" + compana.CampannasProducto + "', '" + compana.CampannasCodigo + "')";
                                 OracleDataAdapter sqlDa = new OracleDataAdapter(command);
                                 command.ExecuteNonQuery();
-                                n++;
-                                // return true;
+                                
+                                //return true;
                             }
                             catch (Exception ex)
                             {
-                                //return false;
+                                return false;
                             }
                             finally
                             {
                                 conn.Close();
                             }
+                            n++;
                         }
-                    } while (n < Campanna.Rows.Count);
+                    }
+                    return true;
+                }else
+                {
+                    return false;
+                    //Mensaje
                 }
 
             }
