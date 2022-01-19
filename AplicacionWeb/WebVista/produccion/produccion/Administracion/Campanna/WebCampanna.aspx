@@ -36,10 +36,9 @@
                             <div class="form-horizontal form-label-left">
                                 <div class="x_title">
                                     <h2>
-                                         <label id="LblTitulo" runat="server" class="control-label col-md-0 col-sm-0 col-xs-0" for="">
+                                        <label id="LblTitulo" runat="server" class="control-label col-md-0 col-sm-0 col-xs-0" for="">
                                             Campos a importar<span class="required"></span>
                                         </label>
-
                                     </h2>
                                     <ul class="nav navbar-right panel_toolbox">
                                         <li class="dropdown"></li>
@@ -48,101 +47,88 @@
                                 </div>
                                 <div class="item form-group">
                                     <asp:Panel ID="PnCargarDatos" Visible="true" runat="server">
-
                                         <label class="control-label col-md-0 col-sm-0 col-xs-0" for="">
                                             Por favor seleccione un archivo<span class="required"></span>
                                         </label>
-                                        
                                         <div class="item form-group">
-                                        <asp:FileUpload ID="FileUpload1" runat="server" />
-
+                                            <asp:FileUpload ID="FileUpload1" runat="server" />
                                             <br />
-                                         <label class="control-label col-md-0 col-sm-0 col-xs-0" for="">
-                                            Los CHECKS seleccionardos son los que se va a importar<span class="required"></span>
-                                        </label>
-                                        <div class="col-sm-12 col-xs-12">
+                                            <label class="control-label col-md-0 col-sm-0 col-xs-0" for="">
+                                                Los CHECKS seleccionardos son los que se va a importar<span class="required"></span>
+                                            </label>
+                                            <div class="col-sm-12 col-xs-12">
 
-                                            <asp:CheckBoxList ID="CbNomre" runat="server" RepeatDirection="Horizontal">
-                                                <asp:ListItem Value="1" Text="Nombre" Selected="True"> Nombre </asp:ListItem>
-                                            </asp:CheckBoxList>
-
-                                            <asp:CheckBoxList ID="CbApellido" runat="server" RepeatDirection="Horizontal">
-                                                <asp:ListItem Value="2" Text="Apellido" Selected="True">Apellido</asp:ListItem>
-                                            </asp:CheckBoxList>
-
-                                            <asp:CheckBoxList ID="CbDireccion" runat="server" RepeatDirection="Horizontal">
-                                                <asp:ListItem Value="3" Text="Direccion" Selected="True">Direccion</asp:ListItem>
-                                            </asp:CheckBoxList>
-
-                                            <asp:CheckBoxList ID="CbTelefono" runat="server" RepeatDirection="Horizontal">
-
+                                                <asp:CheckBoxList ID="CbNomre" runat="server" RepeatDirection="Horizontal">
+                                                    <asp:ListItem Value="1" Text="Nombre" Selected="True"> Nombre </asp:ListItem>
+                                                </asp:CheckBoxList>
+                                                <asp:CheckBoxList ID="CbApellido" runat="server" RepeatDirection="Horizontal">
+                                                    <asp:ListItem Value="2" Text="Apellido" Selected="True">Apellido</asp:ListItem>
+                                                </asp:CheckBoxList>
+                                                <asp:CheckBoxList ID="CbDireccion" runat="server" RepeatDirection="Horizontal">
+                                                    <asp:ListItem Value="3" Text="Direccion" Selected="True">Direccion</asp:ListItem>
+                                                </asp:CheckBoxList>
+                                                <asp:CheckBoxList ID="CbTelefono" runat="server" RepeatDirection="Horizontal">
                                                 <asp:ListItem Value="4" Text="Telefono" Selected="True">Telefono</asp:ListItem>
-                                            </asp:CheckBoxList>
-
+                                                </asp:CheckBoxList>
+                                            </div>
                                         </div>
-                                    </div>
                                     </asp:Panel>
-                                     <asp:Panel ID="PnCampos" Visible="false" runat="server">
-                                          <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
-                                            Nombres<span class="required"></span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <asp:TextBox ID="TxtNombre" runat="server" class="form-control col-md-7 col-xs-12" MaxLength="50"
-                                                ToolTip="Nombres" placeholder="Wish" ></asp:TextBox>
+                                    <asp:Panel ID="PnCampos" Visible="false" runat="server">
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
+                                                Nombres<span class="required"></span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <asp:TextBox ID="TxtNombre" runat="server" class="form-control col-md-7 col-xs-12" MaxLength="50"
+                                                    ToolTip="Nombres" placeholder="Wish"></asp:TextBox>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                          <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
-                                            Apellidos<span class="required"></span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <asp:TextBox ID="TxtApellido" runat="server" class="form-control col-md-7 col-xs-12" MaxLength="50"
-                                                ToolTip="Apellido" placeholder="Wish"></asp:TextBox>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
+                                                Apellidos<span class="required"></span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <asp:TextBox ID="TxtApellido" runat="server" class="form-control col-md-7 col-xs-12" MaxLength="50"
+                                                    ToolTip="Apellido" placeholder="Wish"></asp:TextBox>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                          <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
-                                             Telefono<span class="required"></span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <asp:TextBox ID="TxtTelefono" runat="server" class="form-control col-md-7 col-xs-12" MaxLength="50"
-                                                ToolTip="Telefono " placeholder="Wish" ></asp:TextBox>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
+                                                Telefono<span class="required"></span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <asp:TextBox ID="TxtTelefono" runat="server" class="form-control col-md-7 col-xs-12" MaxLength="50"
+                                                    ToolTip="Telefono " placeholder="Wish"></asp:TextBox>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                          <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
-                                            Dirección <span class="required"></span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <asp:TextBox ID="TxtDireccion" runat="server" class="form-control col-md-7 col-xs-12" MaxLength="50"
-                                                ToolTip="Direción" placeholder="Wish"></asp:TextBox>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
+                                                Dirección <span class="required"></span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <asp:TextBox ID="TxtDireccion" runat="server" class="form-control col-md-7 col-xs-12" MaxLength="50"
+                                                    ToolTip="Direción" placeholder="Wish"></asp:TextBox>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                          <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
-                                            Producto<span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <asp:TextBox ID="TxtProducto" runat="server" Enabled="false" class="form-control col-md-7 col-xs-12" MaxLength="50"
-                                                ToolTip="Producto" placeholder="Wish" required="required"></asp:TextBox>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
+                                                Producto<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <asp:TextBox ID="TxtProducto" runat="server" Enabled="false" class="form-control col-md-7 col-xs-12" MaxLength="50"
+                                                    ToolTip="Producto" placeholder="Wish" required="required"></asp:TextBox>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                          <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
-                                            Codigo <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <asp:TextBox ID="TxtCodigo" runat="server" Enabled="false" class="form-control col-md-7 col-xs-12" MaxLength="50"
-                                                ToolTip=" Codigo" placeholder="Wish" required="required"></asp:TextBox>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="">
+                                                Codigo <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <asp:TextBox ID="TxtCodigo" runat="server" Enabled="false" class="form-control col-md-7 col-xs-12" MaxLength="50"
+                                                    ToolTip=" Codigo" placeholder="Wish" required="required"></asp:TextBox>
+                                            </div>
                                         </div>
-                                    </div>
-                                         </asp:Panel>
+                                    </asp:Panel>
 
                                     <%--<div class="ln_solid"></div>--%>
                                 </div>
@@ -244,7 +230,6 @@
             </div>
         </div>
     </div>
-
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 </asp:Content>
