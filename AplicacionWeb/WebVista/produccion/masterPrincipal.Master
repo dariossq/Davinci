@@ -1,4 +1,4 @@
-﻿<%@ Master  Language="C#" AutoEventWireup="true" CodeBehind="masterPrincipal.Master.cs" Inherits="WebVista.produccion.masterPrincipal" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="masterPrincipal.Master.cs" Inherits="WebVista.produccion.masterPrincipal" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
 
@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Biblioteca</title>
-  
+
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -22,24 +22,24 @@
     <!-- NProgress -->
     <link href="vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- jQuery custom content scroller -->
-    <link href="vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link href="../vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
 
     <!-- Custom Theme Style -->
     <link href="build/css/custom.min.css" rel="stylesheet">
 
 
     <%--//////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
- 
 
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-   <%-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>--%>
+    <%-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>--%>
 
 
 
     <link href="../produccion/plugins/bootstrap/css/Alert.css" rel="stylesheet" />
-    
+
     <link rel="icon" href="images/favicon.ico" type="image/ico" />
 
     <style type="text/css">
@@ -89,15 +89,15 @@
     </asp:ContentPlaceHolder>
 </head>
 
-<body class="nav-md">  
+<body class="nav-md">
 
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col menu_fixed">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="../Principal/WebPrincipal.aspx#" class="site_title"><i class="fa fa-globe"></i><span>Biblioteca!</span></a>
-                    </div>                
+                        <a href="../Principal/WebPrincipal.aspx#" class="site_title"><i class="fa fa-globe"></i><span>Campañas!</span></a>
+                    </div>
 
                     <div class="clearfix"></div>
 
@@ -107,10 +107,10 @@
                             <img src="../../../images/favicon.png" alt="..." class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
-                           
+
                             <h2>Campaña
                             </h2>
-                             <span>_________</span>
+                            <span>_________</span>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -126,23 +126,24 @@
                                 <!-- Menu Campaña -->
                                 <li><a runat="server" id="A1"><i class="fa fa-home"></i>Gestión de Campañas <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                                <li class="sub_menu" runat="server" id="Li1"><a href="../Campanna/WebCampanna.aspx">Gestion de Campañas</a>
-                                                </li>
-                                      </ul>
+                                        <li class="sub_menu" runat="server" id="Li1"><a href="../Campanna/WebCampanna.aspx">Gestion de Campañas</a>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <!--FIN Menu Campaña -->   
-                                                      
+                                <!--FIN Menu Campaña -->
+
                             </ul>
                         </div>
                     </div>
-                   </div>
+                </div>
             </div>
 
             <!-- top navigation parte superior -->
             <div class="top_nav">
                 <div class="nav_menu">
                     <nav>
-                        <div class="nav toggle">  <!-- top navigation parte superior IZQUIERDA -->
+                        <div class="nav toggle">
+                            <!-- top navigation parte superior IZQUIERDA -->
                             <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                         </div>
 
@@ -154,17 +155,17 @@
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                   
+
                                     <li><a href="../Login_v1/login_v2.aspx"><i class="fa fa-sign-out pull-right"></i>Cerrar sesión</a></li>
                                 </ul>
                             </li>
-                          
+
                         </ul>
                     </nav>
                 </div>
             </div>
-            
-              <!-- Fin top navigation parte superior -->
+
+            <!-- Fin top navigation parte superior -->
 
             <!-- page content -->
             <form id="formPrincipal" runat="server">
@@ -187,13 +188,13 @@
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    También puedes visitar... <a href="https://www.Biblioteca.com/">Biblioteca.com</a>
+                    También puedes visitar... <a href="#">Campañas.com</a>
                 </div>
                 <div class="clearfix"></div>
             </footer>
             <!-- /footer content -->
-       
-    </div>
+
+        </div>
     </div>
     <!-- jQuery -->
 
@@ -206,7 +207,7 @@
     <!-- NProgress -->
     <script src="../../../vendors/nprogress/nprogress.js"></script>
     <!-- jQuery custom content scroller -->
-    <script src="../../../vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="../../vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="../../../build/js/custom.min.js"></script>

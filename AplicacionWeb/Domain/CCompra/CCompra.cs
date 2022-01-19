@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.CCompra
 {
@@ -11,13 +7,13 @@ namespace Domain.CCompra
     {
         #region
 
-        private String campannasId;
-        private String campannasNombre;
-        private String campannasApellidos;
-        private String campannasProducto;
-        private String campannasTelefono;
-        private String campannasDirecion;
-        //private String campannasCodigo;
+        private string campannasId;
+        private string campannasNombre;
+        private string campannasApellidos;
+        private string campannasProducto;
+        private string campannasTelefono;
+        private string campannasDirecion;
+        private string campannasCodigo;
 
         #endregion
 
@@ -28,22 +24,63 @@ namespace Domain.CCompra
         public string CampannasProducto { get => campannasProducto; set => campannasProducto = value; }
         public string CampannasTelefono { get => campannasTelefono; set => campannasTelefono = value; }
         public string CampannasDirecion { get => campannasDirecion; set => campannasDirecion = value; }
-        //public string CampannasCodigo { get => campannasCodigo; set => campannasCodigo = value; }
-       
+        public string CampannasCodigo { get => campannasCodigo; set => campannasCodigo = value; }
+
 
         #endregion
 
         #region constructor        
         public CCompra(DataTable Campanna, int fila)
         {
-           
-            //this.CampannasId = Campanna.Rows[fila]["Id"].ToString().ToUpper();
-            this.CampannasNombre = Campanna.Rows[fila]["CAMPANNASNOMBRE"].ToString().ToUpper();
-            this.CampannasApellidos = Campanna.Rows[fila]["CAMPANNASAPELLIDOS"].ToString().ToUpper();
-            this.CampannasTelefono = Campanna.Rows[fila]["CAMPANNASTELEFONO"].ToString().ToUpper();
-            this.CampannasDirecion = Campanna.Rows[fila]["CAMPANNASDIRECCION"].ToString().ToUpper();
-            this.campannasProducto = Campanna.Rows[fila]["CAMPANNAPRODUCTO"].ToString().ToUpper();           
-            //this.CampannasCodigo = Campanna.Rows[fila]["CAMPANNACODIGO"].ToString().ToUpper();
+            try
+            {
+                CampannasId = Campanna.Rows[fila]["iD"].ToString().ToUpper();
+            }
+            catch (Exception)
+            { }
+
+            try
+            {
+                CampannasNombre = Campanna.Rows[fila]["CAMPANNASNOMBRE"].ToString().ToUpper();
+            }
+            catch (Exception)
+            { }
+
+            try
+            {
+                CampannasApellidos = Campanna.Rows[fila]["CAMPANNASAPELLIDOS"].ToString().ToUpper();
+            }
+            catch (Exception)
+            { }
+
+            try
+            {
+                CampannasTelefono = Campanna.Rows[fila]["CAMPANNASTELEFONO"].ToString().ToUpper();
+            }
+            catch (Exception)
+            { }
+
+            try
+            {
+                CampannasDirecion = Campanna.Rows[fila]["CAMPANNASDIRECCION"].ToString().ToUpper();
+            }
+            catch (Exception)
+            { }
+
+            try
+            {
+                campannasProducto = Campanna.Rows[fila]["CAMPANNAPRODUCTO"].ToString().ToUpper();
+            }
+            catch (Exception)
+            { }
+
+            try
+            {
+                CampannasCodigo = Campanna.Rows[fila]["CAMPANNACODIGO"].ToString().ToUpper();
+            }
+            catch (Exception)
+            { }
+
         }
 
 

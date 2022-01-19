@@ -4,14 +4,10 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 
-
     <!-- page content -->
     <div class="right_col" role="main">
-
         <div class="col-md-12 col-sm-12 col-xs-12">
-
             <div class="row">
-
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
@@ -52,7 +48,7 @@
                                     <%--<div class="col-md-12 hidden-small"> PARA OCULTAR CUANDO ESTA AL MAXIMO   --%>
                                     <h2 class="line_30">Quienes somos:</h2>
                                     <div class="col-md-12 ">
-                                        Somos una empresa de SERVICIOS
+                                        Somos una empresa de Campañas publicitarias
                                     </div>
                                 </div>
                                 <br />
@@ -80,17 +76,14 @@
                                 <br />
                                 <br />
                                 <br />
-
                             </div>
-
                             <div id="world-map-gdp" class="col-md-8 col-sm-12 col-xs-12" style="height: auto;"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>       
-    </div>  
-      
+    </div>        
         <!-- /page content -->
 
 </asp:Content>

@@ -1,36 +1,24 @@
 ﻿
-//using Microsoft.Graph;
-using Newtonsoft.Json;
-//using ReRopository.AutorRepository;
+using Infrastruture.RCompra;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Linq;
-//using System.Net.Http;
+using System.Data.OleDb;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-//using System.Text.Json.Net;
-using Infrastruture.RCompra;
-using System.Data.OleDb;
-using System.IO;
 
 namespace WebVista.produccion.produccion.Administracion.Campanna
 {
     public partial class WebCampanna : System.Web.UI.Page
     {
-        Infrastruture.RCompra.CCompraRepository Campa = new CCompraRepository();
-        DataSet Ds = new DataSet();
-        //DataTable Dt = new DataTable();
-        dynamic Campanna = new System.Dynamic.ExpandoObject();
-       // string url = ConfigurationManager.AppSettings["ApiAutor"];
-
+        private readonly Infrastruture.RCompra.CCompraRepository Campa = new CCompraRepository();
+        private DataSet Ds = new DataSet();
+        private readonly int mostrar = 0;
         public enum MessageType { Mensaje, Error, Informacion, Advertencia };
 
         protected void ShowMessage(string Message, MessageType type)
         {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), System.Guid.NewGuid().ToString(), "ShowMessage('" + Message + "','" + type + "');", true);
+            ScriptManager.RegisterStartupScript(this, GetType(), System.Guid.NewGuid().ToString(), "ShowMessage('" + Message + "','" + type + "');", true);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -40,166 +28,165 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
             else
             {
                 CargarCampanna();
-               }
+            }
         }
-
-       
 
         protected void BtnRegistrar_Click(object sender, EventArgs e)
         {
             try
             {
-                //HttpContext.Current.Request.MapPath("~");
-
-                //string ok = Server.MapPath(".") + "/" + FileUpload1.FileName;
-                //string ruta = (FileUpload1.PostedFile.FileName);
-                //string nombre = FileUpload1.FileName;
-                //string extensión = Right(FileUpload1.PostedFile.ContentType.Trim, 3);
-                
-                //C:\\Users\\User - Pc\\Documents\\GitHub\\Davinci\\Davinci\\AplicacionWeb\\WebVista\\produccion\\produccion\\Administracion\\Campanna\\Excel_BD.xlsx
-                                                                                 //C:\\Users\\User-Pc\\Documents\\GitHub\\Davinci\\Davinci\\AplicacionWeb\\WebVista\\produccion\\produccion\\Administracion\\Campanna\\Excel_BD.xlsx
-                string RutaArchivo = AsignarRuta();
-                RutaArchivo = RutaArchivo.Replace(" ", String.Empty);
-                //string conexion = "Provider=Microsoft.Jet.OleDb.4.0; Data Source= " + RutaArchivo + ";Extended Properties=\"Excel 8.0; HDR=Yes\"";
+               
                 string conexion = "Provider=Microsoft.Jet.OleDb.4.0; Data Source=C:\\Users\\User-Pc\\Downloads\\Importacion_CSharp\\Importacion_CSharp\\Excel_BD.xlsx;Extended Properties=\"Excel 8.0; HDR=Yes\"";
-
                 OleDbConnection origen = default(OleDbConnection);
                 origen = new OleDbConnection(conexion);
-
                 OleDbCommand seleccion = default(OleDbCommand);
                 seleccion = new OleDbCommand("Select * From [Hoja1$]", origen);
 
-                OleDbDataAdapter adaptador = new OleDbDataAdapter();
-                adaptador.SelectCommand = seleccion;
+                OleDbDataAdapter adaptador = new OleDbDataAdapter
+                {
+                    SelectCommand = seleccion
+                };
 
                 DataTable dt = new DataTable();
-
-               
-
                 adaptador.Fill(dt);
-
                 origen.Close();
                 dt = EliminarColunmasNoSeleccionadas(dt);
 
-                //EliminarColunmasNoSeleccionadas(dt);
-
-                Campa.Save(dt);
+                if (Campa.Save(dt, mostrar))
+                {
+                    CargarCampanna();
+                    ShowMessage("Datos guardados satisfactoriamente", MessageType.Informacion);
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw;
+                ShowMessage("Por favor selecciona el archivo de contiene los datos a importar", MessageType.Advertencia);
             }
-
-
         }
 
+        /// <summary>
+        /// Método para eliminar las columnas del DT creado
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
         private DataTable EliminarColunmasNoSeleccionadas(DataTable dt)
         {
-            if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue == "")
+            try
             {
-                //dt.Columns.Remove("CAMPANNASNOMBRE");
-                dt.Columns.Remove("CAMPANNASAPELLIDOS");
-                dt.Columns.Remove("CAMPANNASTELEFONO");
-                dt.Columns.Remove("CAMPANNASDIRECCION");
-                return dt;
-            }
-            else
-                if(CbNomre.SelectedValue != "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue == "")
-            {
-                //dt.Columns.Remove("CAMPANNASNOMBRE");
-                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
-                dt.Columns.Remove("CAMPANNASTELEFONO");
-                dt.Columns.Remove("CAMPANNASDIRECCION");
-                return dt;
-            }
-            else
-                if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue == "")
-            {
-                //dt.Columns.Remove("CAMPANNASNOMBRE");
-                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
-                //dt.Columns.Remove("CAMPANNASTELEFONO");
-                dt.Columns.Remove("CAMPANNASDIRECCION");
-                return dt;
-            }
-            else
-                if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue != "")
-            {
-                return dt;
-            }
-            else
-               ////////////////////////////////////////////////////////////////////////////////////
-               if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue == "")
-            {
-                dt.Columns.Remove("CAMPANNASNOMBRE");
-                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
-                dt.Columns.Remove("CAMPANNASTELEFONO");
-                dt.Columns.Remove("CAMPANNASDIRECCION");
-                return dt;
-            }
-            else
-                if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue == "")
-            {
-                dt.Columns.Remove("CAMPANNASNOMBRE");
-                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
-                //dt.Columns.Remove("CAMPANNASTELEFONO");
-                dt.Columns.Remove("CAMPANNASDIRECCION");
-                return dt;
-            }
-            else
-                if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue != "")
-            {
-                dt.Columns.Remove("CAMPANNASNOMBRE");
-                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
-                //dt.Columns.Remove("CAMPANNASTELEFONO");
-                //dt.Columns.Remove("CAMPANNASDIRECCION");
-                return dt;
-            }
-            else
-                if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue != "")
-            {
-                dt.Columns.Remove("CAMPANNASNOMBRE");
-                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
-                dt.Columns.Remove("CAMPANNASTELEFONO");
-                //dt.Columns.Remove("CAMPANNASDIRECCION");
-                return dt;
-            }
-            else
+                if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue == "")
+                {
+                    dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                    dt.Columns.Remove("CAMPANNASTELEFONO");
+                    dt.Columns.Remove("CAMPANNASDIRECCION");
+                    return dt;
+                }
+                else
+                    if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue == "")
+                {
+                    dt.Columns.Remove("CAMPANNASTELEFONO");
+                    dt.Columns.Remove("CAMPANNASDIRECCION");
+                    return dt;
+                }
+                else
+                    if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue == "")
+                {
+                    dt.Columns.Remove("CAMPANNASDIRECCION");
+                    return dt;
+                }
+                else
+                    if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue != "")
+                {
+                    return dt;
+                }
+                else
 
-               ////////////////////////////////////////////////////////////////////////////////////
-               if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue == "")
-            {
-                //dt.Columns.Remove("CAMPANNASNOMBRE");
-                dt.Columns.Remove("CAMPANNASAPELLIDOS");
-                //dt.Columns.Remove("CAMPANNASTELEFONO");
-                dt.Columns.Remove("CAMPANNASDIRECCION");
-                return dt;
-            }
-            else
-                if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue != "")
-            {
-                dt.Columns.Remove("CAMPANNASNOMBRE");
-                dt.Columns.Remove("CAMPANNASAPELLIDOS");
-                //dt.Columns.Remove("CAMPANNASTELEFONO");
-                //dt.Columns.Remove("CAMPANNASDIRECCION");
-                return dt;
-            }
-            else
-                if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue != "")
-            {
-                dt.Columns.Remove("CAMPANNASNOMBRE");
-                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
-                //dt.Columns.Remove("CAMPANNASTELEFONO");
-                dt.Columns.Remove("CAMPANNASDIRECCION");
-                return dt;
-            }
+                   if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue == "")
+                {
+                    dt.Columns.Remove("CAMPANNASNOMBRE");
+                    dt.Columns.Remove("CAMPANNASTELEFONO");
+                    dt.Columns.Remove("CAMPANNASDIRECCION");
+                    return dt;
+                }
+                else
+                    if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue == "")
+                {
+                    dt.Columns.Remove("CAMPANNASNOMBRE");
+                    dt.Columns.Remove("CAMPANNASDIRECCION");
+                    return dt;
+                }
+                else
+                    if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue != "")
+                {
+                    dt.Columns.Remove("CAMPANNASNOMBRE");
+                    return dt;
+                }
+                else
+                    if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue != "")
+                {
+                    dt.Columns.Remove("CAMPANNASNOMBRE");
+                    dt.Columns.Remove("CAMPANNASTELEFONO");
+                    return dt;
+                }
+                else
 
+                   if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue == "")
+                {
+                    dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                    dt.Columns.Remove("CAMPANNASDIRECCION");
+                    return dt;
+                }
+                else
+                    if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue != "")
+                {
+                    dt.Columns.Remove("CAMPANNASNOMBRE");
+                    dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                    return dt;
+                }
+                else
+                    if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue != "")
+                {
+                    dt.Columns.Remove("CAMPANNASNOMBRE");
+                    dt.Columns.Remove("CAMPANNASDIRECCION");
+                    return dt;
+                }
+                else
+                    if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue != "")
+                {
+                    dt.Columns.Remove("CAMPANNASNOMBRE");
+                    dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                    dt.Columns.Remove("CAMPANNASDIRECCION");
+                    return dt;
+                }
 
-            return dt;
+                else
+                    if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue != "")
+                {
+                    dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                    return dt;
+                }
+                else
+                    if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue != "")
+                {
+                    dt.Columns.Remove("CAMPANNASDIRECCION");
+                    return dt;
+                }
+                else
+                    if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue == "")
+                {
+                    dt.Columns.Remove("CAMPANNASNOMBRE");
+                    dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                    dt.Columns.Remove("CAMPANNASTELEFONO");
+                    return dt;
+                }
+                return dt;
+            }
+            catch (Exception)
+            {
+                return dt;
+            }
         }
 
         
-
         private string AsignarRuta()
         {
             SaveFile(FileUpload1.PostedFile);
@@ -210,7 +197,7 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
             return RutaArchivo;
         }
 
-        void SaveFile(HttpPostedFile file)
+        private void SaveFile(HttpPostedFile file)
         {
             // Specify the path to save the uploaded file to.
             string savePath = Server.MapPath(".");
@@ -242,7 +229,7 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
 
                 // Notify the user that the file name was changed.
                 //UploadStatusLabel.Text = "A file with the same name already exists." +
-                  //  "<br />Your file was saved as " + fileName;
+                //  "<br />Your file was saved as " + fileName;
             }
             else
             {
@@ -258,66 +245,6 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
             FileUpload1.SaveAs(savePath);
 
         }
-
-
-
-        public void ExcelToSqlServer()
-        {
-            //System.Windows.Forms.OpenFileDialog myFileDialog = new System.Windows.Forms.OpenFileDialog();
-            //string xSheet = "";
-
-            //{
-            //    var withBlock = myFileDialog;
-            //    withBlock.Filter = "Excel Files |*.xlsx";
-            //    withBlock.Title = "Open File";
-            //    withBlock.ShowDialog();
-            //}
-
-            //if (myFileDialog.FileName.ToString != "")
-            //{
-            //    string ExcelFile = myFileDialog.FileName.ToString;
-            //    xSheet = Interaction.InputBox("Digite el nombre de la Hoja que desea importar", "Complete");
-            //    conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;" + "data source=" + ExcelFile + "; " + "Extended Properties='Excel 12.0 Xml;HDR=Yes'");
-
-            //    try
-            //    {
-            //        conn.Open();
-            //        da = new OleDbDataAdapter("SELECT Nombre FROM  [" + xSheet + "$]", conn);
-            //        ds = new DataSet();
-            //        da.Fill(ds);
-
-            //        sqlBC = new SqlBulkCopy(cnn);
-            //        sqlBC.DestinationTableName = "DatosPersonales";
-            //        sqlBC.WriteToServer(ds.Tables(0));
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Interaction.MsgBox("Error: " + ex.ToString(), MsgBoxStyle.Information, "Informacion");
-            //    }
-            //    finally
-            //    {
-            //        conn.Close();
-            //    }
-            //}
-        }
-
-        //public async void CargarAutor()
-        //{
-        //    try
-        //    {
-        //        DdlAutor.DataSource = null;
-        //        DdlAutor.Items.Add("");
-        //        //DdlAutor.DataSource = await autor.getAutores(url);
-        //        DdlAutor.DataTextField = "NOMBRE_COMPLETO";
-        //        DdlAutor.DataValueField = "ID_AUTOR";
-        //        DdlAutor.DataBind();
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        throw;
-        //    }
-        //}
 
         /// <summary>
         /// Méetodo para listar todos los autores registrados
@@ -335,92 +262,11 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
             }
         }
 
-        private async void CargarAutore(string urlEntrada)
-        {
-            //try
-            //{
-
-
-            //    urlEntrada = urlEntrada.Remove(urlEntrada.Length - 2);
-            //    string datos = "{'Table1': [ " +  await autor.getAutores(urlEntrada) + " ]}";
-            //    DataSet dataSet1 = JsonConvert.DeserializeObject<DataSet>(datos);
-            //    GvDatos.DataSource = dataSet1;
-            //    GvDatos.DataBind();
-
-            //    if (GvDatos.Rows.Count <= 0)
-            //    {
-            //        ShowMessage("No hay datos con la información suministrada. ", MessageType.Informacion);
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    throw;
-            //}
-        }
-
-
-        //public dynamic Datos()
-        //{
-        //    try
-        //    {
-        //        if (string.IsNullOrEmpty(HfId.Value))
-        //        {
-        //            Campanna.Id = 0;
-        //        }
-        //        else
-        //        {
-        //            Campanna.Id = Convert.ToInt32(HfId.Value);
-        //        }
-
-        //        if (string.IsNullOrEmpty(TxtNombre.Text))
-        //        {
-        //            Campanna.Nombre = 0;
-        //        }
-        //        else
-        //        {
-        //            Campanna.Nombre = TxtNombre.Text;
-        //        }
-
-        //        if (string.IsNullOrEmpty(TxtFechaNacimiento.Text))
-        //        {
-        //            Campanna.Apellidos = 0;
-        //        }
-        //        else
-        //        {
-        //            Campanna.Apellidos = TxtFechaNacimiento.Text;
-        //        }
-
-        //        if (string.IsNullOrEmpty(TxtCiudad.Text))
-        //        {
-        //            Campanna.Telefono = 0;
-        //        }
-        //        else
-        //        {
-        //            Campanna.Telefono = TxtCiudad.Text;
-        //        }
-
-        //        if (string.IsNullOrEmpty(TxtMail.Text))
-        //        {
-        //            Campanna.Direcion = 0;
-        //        }
-        //        else
-        //        {
-        //            Campanna.Direcion = TxtMail.Text;
-        //        }
-
-        //        return Campanna;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return Campanna;
-        //    }
-        //}
-
         protected void BtnCancelar_Click(object sender, EventArgs e)
         {
             LimpiarTxt();
             ActivarBotones();
+            ActivarPanel();
         }
 
         /// <summary>
@@ -429,10 +275,12 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
         private void LimpiarTxt()
         {
             HfId.Value = "";
-            //TxtCiudad.Text = "";
-            //TxtFechaNacimiento.Text = "";
-            //TxtNombre.Text = "";
-            //TxtMail.Text = "";
+            TxtNombre.Text = "";
+            TxtApellido.Text = "";
+            TxtDireccion.Text = "";
+            TxtTelefono.Text = "";
+            TxtProducto.Text = "";
+            TxtCodigo.Text = "";
             ActivarBotones();
         }
 
@@ -448,14 +296,39 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
         private void Seleccionar()
         {
             HfId.Value = GvDatos.SelectedDataKey["CAMPANNASID"].ToString();
-            var h = GvDatos.SelectedDataKey["CAMPANNASNOMBRE"].ToString();
-            h = GvDatos.SelectedDataKey["CAMPANNASAPELLIDOS"].ToString();
-            h = GvDatos.SelectedDataKey["CAMPANNASTELEFONO"].ToString();
-           h = GvDatos.SelectedDataKey["CAMPANNASDIRECCION"].ToString();
-            h = GvDatos.SelectedDataKey["CAMPANNAPRODUCTO"].ToString();
-            h = GvDatos.SelectedDataKey["CAMPANNACODIGO"].ToString();
+            TxtNombre.Text = GvDatos.SelectedDataKey["CAMPANNASNOMBRE"].ToString();
+            TxtApellido.Text = GvDatos.SelectedDataKey["CAMPANNASAPELLIDOS"].ToString();
+            TxtTelefono.Text = GvDatos.SelectedDataKey["CAMPANNASTELEFONO"].ToString();
+            TxtDireccion.Text = GvDatos.SelectedDataKey["CAMPANNASDIRECCION"].ToString();
+            TxtProducto.Text = GvDatos.SelectedDataKey["CAMPANNAPRODUCTO"].ToString();
+            TxtCodigo.Text = GvDatos.SelectedDataKey["CAMPANNACODIGO"].ToString();
+
+            ActivarPanel();
         }
 
+        /// <summary>
+        /// Método para activar los paneles 
+        /// </summary>
+        private void ActivarPanel()
+        {
+            if (HfId.Value != "")
+            {
+                LblTitulo.InnerText = "Registro Seleccionado";
+                PnCampos.Visible = true;
+                PnCargarDatos.Visible = false;
+            }
+            else
+            {
+                LblTitulo.InnerText = "Campos a importar";
+                PnCampos.Visible = false;
+                PnCargarDatos.Visible = true;
+            }
+
+        }
+
+        /// <summary>
+        /// Metodo para activar botones
+        /// </summary>
         private void ActivarBotones()
         {
             if (string.IsNullOrEmpty(HfId.Value))
@@ -472,57 +345,86 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
             }
         }
 
-        protected async void BtnActualiza_Click(object sender, EventArgs e)
+        protected void BtnActualiza_Click(object sender, EventArgs e)
         {
-            //var client = new HttpClient();
-            //var url1 = url + "/" + HfAutorId.Value;
-            //var productos = JsonConvert.SerializeObject(Datos());
-            //bool datos = await autor.putAutores(url1, productos);
-
-            //if (datos)
-            //{
-            //    LimpiarTxt();
-            //    CargarAutores(url);
-            //    ShowMessage("Datos actualizados correctamente. ", MessageType.Informacion);
-            //    //CargarAutores();
-                
-            //}
-            //else
-            //{
-            //    ShowMessage("Lo sentimos no se ha podigo actualizar la información. ", MessageType.Informacion);
-
-            //}
+            if (Campa.Update(CrearTablaUdp()))
+            {
+                CargarCampanna();
+                LimpiarTxt();
+                ActivarBotones();
+                ActivarPanel();
+                ShowMessage("Datos guardados satisfactoriamente", MessageType.Informacion);
+            }
         }
 
-        protected async void BtnEliminar_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Metod0 DT para crear la tabla a enviar 
+        /// </summary>
+        /// <returns></returns>
+        private DataTable CrearTablaUdp()
         {
-            //var client = new HttpClient();
-            //var url1 = url + "/" + HfAutorId.Value;
-            //var productos = JsonConvert.SerializeObject(Datos());
-            //bool datos = await autor.deleteAutores(url1);
+            DataTable Dt = new DataTable("Campanna");
+            try
+            {
+                DataColumn ID = new DataColumn("ID");
+                DataColumn CAMPANNASNOMBRE = new DataColumn("CAMPANNASNOMBRE");
+                DataColumn CAMPANNASAPELLIDOS = new DataColumn("CAMPANNASAPELLIDOS");
+                DataColumn CAMPANNASTELEFONO = new DataColumn("CAMPANNASTELEFONO");
+                DataColumn CAMPANNASDIRECCION = new DataColumn("CAMPANNASDIRECCION");
+                DataColumn CAMPANNAPRODUCTO = new DataColumn("CAMPANNAPRODUCTO");
+                DataColumn CAMPANNACODIGO = new DataColumn("CAMPANNACODIGO");
 
-            //if (datos)
-            //{
-            //    LimpiarTxt();
-            //    CargarAutores(url);
-            //    ShowMessage("Registro eliminado correctamente. ", MessageType.Informacion);
-            //    //CargarAutores();
+                Dt.Columns.Add(ID);
+                Dt.Columns.Add(CAMPANNASNOMBRE);
+                Dt.Columns.Add(CAMPANNASAPELLIDOS);
+                Dt.Columns.Add(CAMPANNASTELEFONO);
+                Dt.Columns.Add(CAMPANNASDIRECCION);
+                Dt.Columns.Add(CAMPANNAPRODUCTO);
+                Dt.Columns.Add(CAMPANNACODIGO);
 
-            //}
-            //else
-            //{
-            //    ShowMessage("Lo sentimos no se ha podigo eliminar la información. ", MessageType.Informacion);
+                DataRow row1 = Dt.NewRow();
+                row1["ID"] = HfId.Value;
+                row1["CAMPANNASNOMBRE"] = TxtNombre.Text;
+                row1["CAMPANNASAPELLIDOS"] = TxtApellido.Text;
+                row1["CAMPANNASTELEFONO"] = TxtTelefono.Text;
+                row1["CAMPANNASDIRECCION"] = TxtDireccion.Text;
+                row1["CAMPANNAPRODUCTO"] = TxtProducto.Text;
+                row1["CAMPANNACODIGO"] = TxtCodigo.Text;
 
-            //}
+                Dt.Rows.Add(row1);
+                return Dt;
+            }
+            catch (Exception)
+            {
+
+                return Dt;
+            }
         }
 
-        protected void DdlAutor_SelectedIndexChanged(object sender, EventArgs e)
+        protected void BtnEliminar_Click(object sender, EventArgs e)
         {
-            //var urlAutor = url + "/" + DdlAutor.Text;
-            //CargarAutore(urlAutor);
+            if (Campa.Del(CrearTablaUdp()))
+            {
+                CargarCampanna();
+                LimpiarTxt();
+                ActivarBotones();
+                ActivarPanel();
+                ShowMessage("Registro eliminado satisfactoriamente", MessageType.Informacion);
+            }
         }
 
-        
+       
+
+        protected void GvDatos_PageIndexChanging(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void GvDatos_PageIndexChanging1(object sender, GridViewPageEventArgs e)
+        {
+            GvDatos.PageIndex = e.NewPageIndex;
+            CargarCampanna();
+        }       
     }
 }
 

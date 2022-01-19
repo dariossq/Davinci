@@ -1,26 +1,20 @@
 ﻿using Domain.CCompra;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.OracleClient;
 using System.Data.SqlClient;
-//using System.Data.OracleClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastruture.RCompra
 {
     public class CCompraRepository
     {
-        private string connectionString;
-
-        DataTable Dt = new DataTable();
-        DataSet Ds = new DataSet();
+        private readonly string connectionString;
+        private readonly DataTable Dt = new DataTable();
+        private readonly DataSet Ds = new DataSet();
         public CCompraRepository()
         {
-            this.connectionString = ConfigurationManager.ConnectionStrings["Conexion"].ToString();
+            connectionString = ConfigurationManager.ConnectionStrings["Conexion"].ToString();
         }
 
         /// <summary>
@@ -28,52 +22,55 @@ namespace Infrastruture.RCompra
         /// </summary>
         /// <param name="Campanna"></param>
         /// <returns></returns>
-        
-        public Boolean Save(DataTable Campanna)
+
+        public bool Save(DataTable Campanna, int ConstruirSql)
         {
             try
             {
-                string TrabajoCod = "0";
-
-
+                bool valor = false;
                 int codigo = UltimoRegistroCodigo();
+                int n = 0;
 
                 if (Campanna.Rows.Count > 0)
                 {
-                    int n = 0;
-                    while (n < Campanna.Rows.Count) 
-                        {                        
+                    int Aux = Campanna.Rows.Count;
+                    while (n < Campanna.Rows.Count)
+                    {
                         CCompra compana = new CCompra(Campanna, n);
                         DataSet Ds = new DataSet();
-                        using (OracleConnection conn = new OracleConnection(this.connectionString))
+                        using (OracleConnection conn = new OracleConnection(connectionString))
                         {
                             try
                             {
                                 conn.Open();
                                 OracleCommand command = conn.CreateCommand();
                                 command.CommandText = "insert into CAMPANNAS ( CAMPANNASNOMBRE, CAMPANNASAPELLIDOS,CAMPANNASTELEFONO,CAMPANNASDIRECCION,CAMPANNAPRODUCTO,CAMPANNACODIGO)" +
-                                    "VALUES ('" + compana.CampannasNombre + "', '" + compana.CampannasNombre + "'  , '" + compana.CampannasTelefono + "' , '" + compana.CampannasDirecion + "', '" + compana.CampannasProducto + "',  "+ codigo +" )";
+                                "VALUES ('" + compana.CampannasNombre + "', '" + compana.CampannasApellidos + "'  , '" + compana.CampannasTelefono + "' , '" + compana.CampannasDirecion + "', '" + compana.CampannasProducto + "',  " + codigo + " )";
+
                                 OracleDataAdapter sqlDa = new OracleDataAdapter(command);
                                 command.ExecuteNonQuery();
-                                
-                                //return true;
+                                n++;
+                                if (n == Aux)
+                                {
+                                    return valor = true;
+                                }                               
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
-                                return false;
+                                return valor;
                             }
                             finally
                             {
                                 conn.Close();
                             }
-                            n++;
+
                         }
                     }
-                    return true;
-                }else
+                    return valor;
+                }
+                else
                 {
-                    return false;
-                    //Mensaje
+                    return false;                   
                 }
 
             }
@@ -85,115 +82,70 @@ namespace Infrastruture.RCompra
         }
 
         /// <summary>
-        /// Metodo para saber que codigo es el mayor insertado y aunmenta en 1 dicho codigo
+        /// metodo boolean para actualizar informacion
         /// </summary>
+        /// <param name="Campanna"></param>
         /// <returns></returns>
-        
-        public int UltimoRegistroCodigo()
+        public bool Update(DataTable Campanna)
         {
-            using (OracleConnection conn = new OracleConnection(this.connectionString))
+            try
             {
-                int codigo = 0;
-                try
+                int n = 0;
+                CCompra compana = new CCompra(Campanna, n);
+                using (OracleConnection conn = new OracleConnection(connectionString))
                 {
-                    
-                    conn.Open();
-                    OracleCommand command = conn.CreateCommand();
+                    try
+                    {
+                        conn.Open();
+                        OracleCommand command = conn.CreateCommand();
+                        command.CommandText = "UPDATE CAMPANNAS  SET CAMPANNASNOMBRE = '" + compana.CampannasNombre + "', " +
+                                                                    "CAMPANNASAPELLIDOS = '" + compana.CampannasApellidos + "', " +
+                                                                     "CAMPANNASTELEFONO = '" + compana.CampannasTelefono + "', " +
+                                                                      "CAMPANNASDIRECCION = '" + compana.CampannasDirecion + "', " +
+                                                                       "CAMPANNAPRODUCTO = '" + compana.CampannasProducto + "', " +
+                                                                   "CAMPANNACODIGO = '" + compana.CampannasCodigo + "' " +
+                                               " WHERE  CAMPANNASID = '" + compana.CampannasId + "' ";
+                        command.ExecuteNonQuery();
+                        return true;
 
-                    command.CommandText = @"select  max(campannacodigo) from campannas  order by   campannacodigo DESC";
-                    OracleDataAdapter sqlDa = new OracleDataAdapter(command);
-                    command.ExecuteNonQuery();
-
-                    sqlDa.Fill(Dt);
-                    codigo = Convert.ToInt16(Dt.Rows[0][0].ToString());
-                    codigo++;
-                    return codigo;
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
                 }
-
-                catch (Exception ex)
-                {
-                    codigo++;
-                    return codigo;
-                }
-                finally
-                {
-                    // siempre se ejecuta al finalizar (no importa si hay o no errores)
-                    conn.Close();
-                }
-
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
-
 
         /// <summary>
-        /// Metodo para mostrar datos
+        /// Metodo para eliminar un registro seleccionado
         /// </summary>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public DataSet MostrarDatos()
+        public bool Del(DataTable Campanna)
         {
-            using (OracleConnection conn = new OracleConnection(this.connectionString))
+            int n = 0;
+            CCompra compana = new CCompra(Campanna, n);
+
+            using (OracleConnection conn = new OracleConnection(connectionString))
             {
-                int codigo = 0;
                 try
                 {
-
                     conn.Open();
                     OracleCommand command = conn.CreateCommand();
-
-                    command.CommandText = @"select  * from campannas  order by   campannacodigo DESC";
-                    OracleDataAdapter sqlDa = new OracleDataAdapter(command);
+                    command.CommandText = "DELETE CAMPANNAS WHERE CAMPANNASID = '" + compana.CampannasId + "'";
                     command.ExecuteNonQuery();
-
-                    sqlDa.Fill(Ds);
-                    
-                    return Ds;
-                }
-
-                catch (Exception ex)
-                {
-                    return Ds;
-                }
-                finally
-                {
-                    // siempre se ejecuta al finalizar (no importa si hay o no errores)
-                    conn.Close();
-                }
-
-            }
-        }
-
-
-
-        public Boolean Save1(DataSet ds)
-        {
-            string TrabajoCod = "0";
-
-            //CCompra compana = new CCompra(Campanna);
-            DataSet Ds = new DataSet();
-            using (OracleConnection conn = new OracleConnection(this.connectionString))
-            {
-                try
-                {
-                    string cadena = "Data Source=DESKTOP-PIB9MC0;Persist Security Info=True; Password=  CAMPANNA; User ID= CAMPANNA,Unicode=True";
-                    //"VALUES ('" + com.CampannasApellidos + "', '" + com.CampannasDirecion + "'  , " + com.CampannasNombre + " )";
-                    conn.Open();
-                    //OracleCommand command = conn.CreateCommand();
-
-                    //"DATA SOURCE=(DESCRIPTION = (   (CONNECT_DATA = (SERVER = DEDICATED)   (SERVICE_NAME = XE))); \r\n         \r\n         PASSWORD=  CAMPANNA; USER ID= CAMPANNA"
-                    SqlBulkCopy importar = default(SqlBulkCopy);
-                    importar = new SqlBulkCopy(cadena);
-                    importar.DestinationTableName = "TABLA_USUARIO";
-                    importar.WriteToServer(ds.Tables[0]);
-                    //connectionString.Close();
-                
-                    //command.CommandText = "insert into CAMPANNAS ( CAMPANNASNOMBRE, CAMPANNASAPELLIDOS,CAMPANNAPRODUCTO,CAMPANNACODIGO)" +
-                    //    "VALUES ('" + compana.CampannasNombre + "', '" + compana.CampannasApellidos + "', '" + compana.CampannasTelefono + "', '" + compana.CampannasApellidos + "' )";
-                    //// "VALUES ('3', 'DD'  , 'DD' )";
-                    //OracleDataAdapter sqlDa = new OracleDataAdapter(command);
-                    //command.ExecuteNonQuery();
                     return true;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return false;
                 }
@@ -204,5 +156,72 @@ namespace Infrastruture.RCompra
             }
         }
 
+        /// <summary>
+        /// Metodo para saber que codigo es el mayor insertado y aunmenta en 1 dicho codigo
+        /// </summary>
+        /// <returns></returns>
+
+        public int UltimoRegistroCodigo()
+        {
+            using (OracleConnection conn = new OracleConnection(connectionString))
+            {
+                int codigo = 0;
+                try
+                {
+                    conn.Open();
+                    OracleCommand command = conn.CreateCommand();
+                    command.CommandText = @"select  max(campannacodigo) from campannas  order by   campannacodigo DESC";
+                    OracleDataAdapter sqlDa = new OracleDataAdapter(command);
+                    command.ExecuteNonQuery();
+
+                    sqlDa.Fill(Dt);
+                    codigo = Convert.ToInt16(Dt.Rows[0][0].ToString());
+                    codigo++;
+                    return codigo;
+                }
+
+                catch (Exception)
+                {
+                    codigo++;
+                    return codigo;
+                }
+                finally
+                {
+                    // siempre se ejecuta al finalizar (no importa si hay o no errores)
+                    conn.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Metodo para mostrar datos
+        /// </summary>
+        /// <returns></returns>
+        public DataSet MostrarDatos()
+        {
+            using (OracleConnection conn = new OracleConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    OracleCommand command = conn.CreateCommand();
+
+                    command.CommandText = @"select  * from campannas  order by   campannacodigo DESC";
+                    OracleDataAdapter sqlDa = new OracleDataAdapter(command);
+                    command.ExecuteNonQuery();
+                    sqlDa.Fill(Ds);
+                    return Ds;
+                }
+                catch (Exception)
+                {
+                    return Ds;
+                }
+                finally
+                {                   
+                    conn.Close();
+                }
+
+            }
+        }
     }
 }
