@@ -16,7 +16,7 @@ namespace Infrastruture.RCompra
     {
         private string connectionString;
 
-
+        DataTable Dt = new DataTable();
         public CCompraRepository()
         {
             this.connectionString = ConfigurationManager.ConnectionStrings["Conexion"].ToString();
@@ -27,11 +27,15 @@ namespace Infrastruture.RCompra
         /// </summary>
         /// <param name="Campanna"></param>
         /// <returns></returns>
+        
         public Boolean Save(DataTable Campanna)
         {
             try
             {
                 string TrabajoCod = "0";
+
+
+                int codigo = UltimoRegistroCodigo();
 
                 if (Campanna.Rows.Count > 0)
                 {
@@ -46,8 +50,8 @@ namespace Infrastruture.RCompra
                             {
                                 conn.Open();
                                 OracleCommand command = conn.CreateCommand();
-                                command.CommandText = "insert into CAMPANNAS ( CAMPANNASNOMBRE, CAMPANNASAPELLIDOS,CAMPANNASTELEFONO,CAMPANNASDIRECCION,CAMPANNAPRODUCTO,CAMPANNACODIGO)" +
-                                    "VALUES ('" + compana.CampannasNombre + "', '" + compana.CampannasNombre + "'  , '" + compana.CampannasTelefono + "' , '" + compana.CampannasDirecion + "', '" + compana.CampannasProducto + "', '" + compana.CampannasCodigo + "')";
+                                command.CommandText = "insert into CAMPANNAS ( CAMPANNASNOMBRE, CAMPANNASAPELLIDOS,CAMPANNASTELEFONO,CAMPANNASDIRECCION,CAMPANNAPRODUCTO,CAMPANNACODIGO, CAMPANNAFECHA)" +
+                                    "VALUES ('" + compana.CampannasNombre + "', '" + compana.CampannasNombre + "'  , '" + compana.CampannasTelefono + "' , '" + compana.CampannasDirecion + "', '" + compana.CampannasProducto + "',  "+ codigo +" , CURRENT_TIMESTAMP )";
                                 OracleDataAdapter sqlDa = new OracleDataAdapter(command);
                                 command.ExecuteNonQuery();
                                 
@@ -78,6 +82,47 @@ namespace Infrastruture.RCompra
                 throw;
             }
         }
+
+        /// <summary>
+        /// Metodo para saber que codigo es el mayor insertado y aunmenta en 1 dicho codigo
+        /// </summary>
+        /// <returns></returns>
+        
+        public int UltimoRegistroCodigo()
+        {
+            using (OracleConnection conn = new OracleConnection(this.connectionString))
+            {
+                int codigo = 0;
+                try
+                {
+                    
+                    conn.Open();
+                    OracleCommand command = conn.CreateCommand();
+
+                    command.CommandText = @"select  max(campannacodigo) from campannas  order by   campannacodigo DESC";
+                    OracleDataAdapter sqlDa = new OracleDataAdapter(command);
+                    command.ExecuteNonQuery();
+
+                    sqlDa.Fill(Dt);
+                    codigo = Convert.ToInt16(Dt.Rows[0][0].ToString());
+                    codigo++;
+                    return codigo;
+                }
+
+                catch (Exception ex)
+                {
+                    codigo++;
+                    return codigo;
+                }
+                finally
+                {
+                    // siempre se ejecuta al finalizar (no importa si hay o no errores)
+                    conn.Close();
+                }
+
+            }
+        }
+
 
 
         public Boolean Save1(DataSet ds)

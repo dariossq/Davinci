@@ -87,6 +87,9 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
                 
                 origen.Close();
 
+                //DataTable Dt = Campa.FechaServidor();
+                //DateTime fecha = Convert.ToDateTime(Dt.Rows[0][0].ToString()); 
+
                 Campa.Save(dt);
             }
             catch (Exception ex)
