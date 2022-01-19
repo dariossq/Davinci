@@ -17,6 +17,7 @@ namespace Infrastruture.RCompra
         private string connectionString;
 
         DataTable Dt = new DataTable();
+        DataSet Ds = new DataSet();
         public CCompraRepository()
         {
             this.connectionString = ConfigurationManager.ConnectionStrings["Conexion"].ToString();
@@ -50,8 +51,8 @@ namespace Infrastruture.RCompra
                             {
                                 conn.Open();
                                 OracleCommand command = conn.CreateCommand();
-                                command.CommandText = "insert into CAMPANNAS ( CAMPANNASNOMBRE, CAMPANNASAPELLIDOS,CAMPANNASTELEFONO,CAMPANNASDIRECCION,CAMPANNAPRODUCTO,CAMPANNACODIGO, CAMPANNAFECHA)" +
-                                    "VALUES ('" + compana.CampannasNombre + "', '" + compana.CampannasNombre + "'  , '" + compana.CampannasTelefono + "' , '" + compana.CampannasDirecion + "', '" + compana.CampannasProducto + "',  "+ codigo +" , CURRENT_TIMESTAMP )";
+                                command.CommandText = "insert into CAMPANNAS ( CAMPANNASNOMBRE, CAMPANNASAPELLIDOS,CAMPANNASTELEFONO,CAMPANNASDIRECCION,CAMPANNAPRODUCTO,CAMPANNACODIGO)" +
+                                    "VALUES ('" + compana.CampannasNombre + "', '" + compana.CampannasNombre + "'  , '" + compana.CampannasTelefono + "' , '" + compana.CampannasDirecion + "', '" + compana.CampannasProducto + "',  "+ codigo +" )";
                                 OracleDataAdapter sqlDa = new OracleDataAdapter(command);
                                 command.ExecuteNonQuery();
                                 
@@ -113,6 +114,44 @@ namespace Infrastruture.RCompra
                 {
                     codigo++;
                     return codigo;
+                }
+                finally
+                {
+                    // siempre se ejecuta al finalizar (no importa si hay o no errores)
+                    conn.Close();
+                }
+
+            }
+        }
+
+
+        /// <summary>
+        /// Metodo para mostrar datos
+        /// </summary>
+        /// <returns></returns>
+        public DataSet MostrarDatos()
+        {
+            using (OracleConnection conn = new OracleConnection(this.connectionString))
+            {
+                int codigo = 0;
+                try
+                {
+
+                    conn.Open();
+                    OracleCommand command = conn.CreateCommand();
+
+                    command.CommandText = @"select  * from campannas  order by   campannacodigo DESC";
+                    OracleDataAdapter sqlDa = new OracleDataAdapter(command);
+                    command.ExecuteNonQuery();
+
+                    sqlDa.Fill(Ds);
+                    
+                    return Ds;
+                }
+
+                catch (Exception ex)
+                {
+                    return Ds;
                 }
                 finally
                 {

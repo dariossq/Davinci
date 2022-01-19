@@ -17,7 +17,7 @@ namespace Domain.CCompra
         private String campannasProducto;
         private String campannasTelefono;
         private String campannasDirecion;
-        private String campannasCodigo;
+        //private String campannasCodigo;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Domain.CCompra
         public string CampannasProducto { get => campannasProducto; set => campannasProducto = value; }
         public string CampannasTelefono { get => campannasTelefono; set => campannasTelefono = value; }
         public string CampannasDirecion { get => campannasDirecion; set => campannasDirecion = value; }
-        public string CampannasCodigo { get => campannasCodigo; set => campannasCodigo = value; }
+        //public string CampannasCodigo { get => campannasCodigo; set => campannasCodigo = value; }
        
 
         #endregion
@@ -43,7 +43,7 @@ namespace Domain.CCompra
             this.CampannasTelefono = Campanna.Rows[fila]["CAMPANNASTELEFONO"].ToString().ToUpper();
             this.CampannasDirecion = Campanna.Rows[fila]["CAMPANNASDIRECCION"].ToString().ToUpper();
             this.campannasProducto = Campanna.Rows[fila]["CAMPANNAPRODUCTO"].ToString().ToUpper();           
-            this.CampannasCodigo = Campanna.Rows[fila]["CAMPANNACODIGO"].ToString().ToUpper();
+            //this.CampannasCodigo = Campanna.Rows[fila]["CAMPANNACODIGO"].ToString().ToUpper();
         }
 
 

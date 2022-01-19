@@ -117,7 +117,7 @@
                                     PageSize="100" ShowFooter="True" ShowHeaderWhenEmpty="True"
                                     ViewStateMode="Enabled" UseAccessibleHeader="False"
                                     AutoGenerateColumns="False"
-                                    DataKeyNames="ID_AUTOR, NOMBRE_COMPLETO, FECHA_NACIMIENTO, CIUDAD_PROCEDENCIA, CORREOELECTRONICO"
+                                    DataKeyNames="CAMPANNASID,CAMPANNASNOMBRE,CAMPANNASAPELLIDOS,CAMPANNASTELEFONO,CAMPANNASDIRECCION,CAMPANNAPRODUCTO,CAMPANNACODIGO"
                                     OnSelectedIndexChanged="GvDatos_SelectedIndexChanged">
                                     <AlternatingRowStyle BackColor="White" ForeColor="Black" Height="12px"
                                         Wrap="True" />
@@ -126,24 +126,34 @@
                                             SelectImageUrl="~/produccion/images/edit.png" ShowSelectButton="True">
                                             <ItemStyle Width="25px" />
                                         </asp:CommandField>
-                                        <asp:BoundField DataField="ID_AUTOR" HeaderText="ID_AUTOR"
+                                        <asp:BoundField DataField="CAMPANNASID" HeaderText="CAMPANNASID"
                                             Visible="false" />
-                                        <asp:BoundField DataField="NOMBRE_COMPLETO" HeaderText="Nombre completo">
+                                        <asp:BoundField DataField="CAMPANNASNOMBRE" HeaderText="Nombres">
                                             <FooterStyle HorizontalAlign="Center" />
                                             <HeaderStyle HorizontalAlign="Center" />
                                             <ItemStyle HorizontalAlign="Left" />
                                         </asp:BoundField>
-                                        <asp:BoundField DataField="FECHA_NACIMIENTO" HeaderText="Fecha Nacimiento" DataFormatString="{0:d}">
+                                        <asp:BoundField DataField="CAMPANNASAPELLIDOS" HeaderText="Apellidos">
                                             <FooterStyle HorizontalAlign="Center" />
                                             <HeaderStyle HorizontalAlign="Center" />
                                             <ItemStyle HorizontalAlign="Left" />
                                         </asp:BoundField>
-                                        <asp:BoundField DataField="CIUDAD_PROCEDENCIA" HeaderText="Ciudad Procedencia">
+                                        <asp:BoundField DataField="CAMPANNASTELEFONO" HeaderText="Telefono">
                                             <FooterStyle HorizontalAlign="Center" />
                                             <HeaderStyle HorizontalAlign="Center" />
                                             <ItemStyle HorizontalAlign="Left" />
                                         </asp:BoundField>
-                                        <asp:BoundField DataField="CORREOELECTRONICO" HeaderText="Mail">
+                                        <asp:BoundField DataField="CAMPANNASDIRECCION" HeaderText="Direccion">
+                                            <FooterStyle HorizontalAlign="Center" />
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Left" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="CAMPANNAPRODUCTO" HeaderText="Producto">
+                                            <FooterStyle HorizontalAlign="Center" />
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Left" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="CAMPANNACODIGO" HeaderText="Codigo">
                                             <FooterStyle HorizontalAlign="Center" />
                                             <HeaderStyle HorizontalAlign="Center" />
                                             <ItemStyle HorizontalAlign="Left" />

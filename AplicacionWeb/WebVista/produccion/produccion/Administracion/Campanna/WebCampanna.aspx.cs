@@ -38,7 +38,7 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
             { return; }
             else
             {
-               
+                CargarCampanna();
                 //CargarAutores(url);
                 //CargarAutor();
             }
@@ -86,9 +86,6 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
                 //dt.Columns.Remove("CAMPANNASDIRECCION");
                 
                 origen.Close();
-
-                //DataTable Dt = Campa.FechaServidor();
-                //DateTime fecha = Convert.ToDateTime(Dt.Rows[0][0].ToString()); 
 
                 Campa.Save(dt);
             }
@@ -223,17 +220,17 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
         /// <summary>
         /// Méetodo para listar todos los autores registrados
         /// </summary>
-        private async void CargarCampanna()
+        private void CargarCampanna()
         {
-            //try
-            //{
-            //    Ds = Campa.Save1()
-            //    GvDatos.DataSource = Ds;
-            //    GvDatos.DataBind();
-            //}
-            //catch (Exception)
-            //{
-            //}
+            try
+            {
+                Ds = Campa.MostrarDatos();
+                GvDatos.DataSource = Ds;
+                GvDatos.DataBind();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private async void CargarAutore(string urlEntrada)
@@ -348,7 +345,7 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
         /// </summary>
         private void Seleccionar()
         {
-            HfId.Value = GvDatos.SelectedDataKey["ID_AUTOR"].ToString();
+            //HfId.Value = GvDatos.SelectedDataKey["ID_AUTOR"].ToString();
             //TxtNombre.Text = GvDatos.SelectedDataKey["NOMBRE_COMPLETO"].ToString();
             //DateTime fechaExpedicion = Convert.ToDateTime(GvDatos.SelectedDataKey["FECHA_NACIMIENTO"].ToString());
             //TxtFechaNacimiento.Text = fechaExpedicion.ToString("dd/MM/yyyy");
