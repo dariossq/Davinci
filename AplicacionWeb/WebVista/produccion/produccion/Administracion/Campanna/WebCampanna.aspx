@@ -44,22 +44,36 @@
                                         </ul>
                                         <div class="clearfix"></div>
                                     </div>
-
-
-
                                      <div class="item form-group">
                                         
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                           
+                                        <div class="col-sm-12 col-xs-12">                                           
 
-                                            <asp:CheckBoxList ID="CbCargar" runat="server" RepeatDirection="Vertical" >
-                                                <asp:ListItem Value="1" Text="Nombre"> Nombre </asp:ListItem>
-                                                <asp:ListItem Value="2" Text="Apellido">Apellido</asp:ListItem>
-                                                <asp:ListItem Value="3" Text="Direccion" >Direccion</asp:ListItem>
-                                                <asp:ListItem Value="1" Text="Telefono">Telefono</asp:ListItem>
+                                            <asp:CheckBoxList ID="CbNomre" runat="server" RepeatDirection="Horizontal" >
+                                                <asp:ListItem Value="1" Text="Nombre" Selected="True"> Nombre </asp:ListItem>
+                                            </asp:CheckBoxList>
+
+                                            <asp:CheckBoxList ID="CbApellido" runat="server" RepeatDirection="Horizontal" >
+                                                <asp:ListItem Value="2" Text="Apellido" Selected="True">Apellido</asp:ListItem>
+                                               </asp:CheckBoxList>
+
+                                            <asp:CheckBoxList ID="CbDireccion" runat="server" RepeatDirection="Horizontal" >
+                                                <asp:ListItem Value="3" Text="Direccion" Selected="True">Direccion</asp:ListItem>
+                                            </asp:CheckBoxList>
+
+                                            <asp:CheckBoxList ID="CbTelefono" runat="server" RepeatDirection="Horizontal" >
+                                                
+                                                <asp:ListItem Value="4" Text="Telefono" Selected="True">Telefono</asp:ListItem>
                                             </asp:CheckBoxList>
                                         
                                         </div>
+
+                                          <%--<div class="ln_solid"></div>--%>
+
+                                    <div class="item form-group">
+                                            
+                                        <asp:FileUpload ID="FileUpload1" runat="server" />
+                                                                                
+                                    </div>
                                     </div>
 
                                   
@@ -74,13 +88,7 @@
 
                                    
 
-                                    <div class="ln_solid"></div>
-
-                                    <div class="item form-group">
-                                            
-                                        <asp:FileUpload ID="FileUpload1" runat="server" />
-                                                                                
-                                    </div>
+                                   
 
                                     <div class="ln_solid"></div>
                                     <div class="form-group">

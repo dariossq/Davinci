@@ -22,6 +22,7 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
     {
         Infrastruture.RCompra.CCompraRepository Campa = new CCompraRepository();
         DataSet Ds = new DataSet();
+        //DataTable Dt = new DataTable();
         dynamic Campanna = new System.Dynamic.ExpandoObject();
        // string url = ConfigurationManager.AppSettings["ApiAutor"];
 
@@ -39,11 +40,10 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
             else
             {
                 CargarCampanna();
-                //CargarAutores(url);
-                //CargarAutor();
-            }
+               }
         }
 
+       
 
         protected void BtnRegistrar_Click(object sender, EventArgs e)
         {
@@ -78,14 +78,10 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
 
                 adaptador.Fill(dt);
 
-
-                
-                //dt.Columns.Remove("CAMPANNASNOMBRE");
-                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
-                //dt.Columns.Remove("CAMPANNASTELEFONO");
-                //dt.Columns.Remove("CAMPANNASDIRECCION");
-                
                 origen.Close();
+                dt = EliminarColunmasNoSeleccionadas(dt);
+
+                //EliminarColunmasNoSeleccionadas(dt);
 
                 Campa.Save(dt);
             }
@@ -97,6 +93,112 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
 
 
         }
+
+        private DataTable EliminarColunmasNoSeleccionadas(DataTable dt)
+        {
+            if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue == "")
+            {
+                //dt.Columns.Remove("CAMPANNASNOMBRE");
+                dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                dt.Columns.Remove("CAMPANNASTELEFONO");
+                dt.Columns.Remove("CAMPANNASDIRECCION");
+                return dt;
+            }
+            else
+                if(CbNomre.SelectedValue != "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue == "")
+            {
+                //dt.Columns.Remove("CAMPANNASNOMBRE");
+                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                dt.Columns.Remove("CAMPANNASTELEFONO");
+                dt.Columns.Remove("CAMPANNASDIRECCION");
+                return dt;
+            }
+            else
+                if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue == "")
+            {
+                //dt.Columns.Remove("CAMPANNASNOMBRE");
+                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                //dt.Columns.Remove("CAMPANNASTELEFONO");
+                dt.Columns.Remove("CAMPANNASDIRECCION");
+                return dt;
+            }
+            else
+                if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue != "")
+            {
+                return dt;
+            }
+            else
+               ////////////////////////////////////////////////////////////////////////////////////
+               if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue == "")
+            {
+                dt.Columns.Remove("CAMPANNASNOMBRE");
+                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                dt.Columns.Remove("CAMPANNASTELEFONO");
+                dt.Columns.Remove("CAMPANNASDIRECCION");
+                return dt;
+            }
+            else
+                if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue == "")
+            {
+                dt.Columns.Remove("CAMPANNASNOMBRE");
+                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                //dt.Columns.Remove("CAMPANNASTELEFONO");
+                dt.Columns.Remove("CAMPANNASDIRECCION");
+                return dt;
+            }
+            else
+                if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue != "")
+            {
+                dt.Columns.Remove("CAMPANNASNOMBRE");
+                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                //dt.Columns.Remove("CAMPANNASTELEFONO");
+                //dt.Columns.Remove("CAMPANNASDIRECCION");
+                return dt;
+            }
+            else
+                if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue != "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue != "")
+            {
+                dt.Columns.Remove("CAMPANNASNOMBRE");
+                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                dt.Columns.Remove("CAMPANNASTELEFONO");
+                //dt.Columns.Remove("CAMPANNASDIRECCION");
+                return dt;
+            }
+            else
+
+               ////////////////////////////////////////////////////////////////////////////////////
+               if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue == "")
+            {
+                //dt.Columns.Remove("CAMPANNASNOMBRE");
+                dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                //dt.Columns.Remove("CAMPANNASTELEFONO");
+                dt.Columns.Remove("CAMPANNASDIRECCION");
+                return dt;
+            }
+            else
+                if (CbNomre.SelectedValue == "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue != "" && CbTelefono.SelectedValue != "")
+            {
+                dt.Columns.Remove("CAMPANNASNOMBRE");
+                dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                //dt.Columns.Remove("CAMPANNASTELEFONO");
+                //dt.Columns.Remove("CAMPANNASDIRECCION");
+                return dt;
+            }
+            else
+                if (CbNomre.SelectedValue != "" && CbApellido.SelectedValue == "" && CbDireccion.SelectedValue == "" && CbTelefono.SelectedValue != "")
+            {
+                dt.Columns.Remove("CAMPANNASNOMBRE");
+                //dt.Columns.Remove("CAMPANNASAPELLIDOS");
+                //dt.Columns.Remove("CAMPANNASTELEFONO");
+                dt.Columns.Remove("CAMPANNASDIRECCION");
+                return dt;
+            }
+
+
+            return dt;
+        }
+
+        
 
         private string AsignarRuta()
         {
@@ -345,12 +447,13 @@ namespace WebVista.produccion.produccion.Administracion.Campanna
         /// </summary>
         private void Seleccionar()
         {
-            //HfId.Value = GvDatos.SelectedDataKey["ID_AUTOR"].ToString();
-            //TxtNombre.Text = GvDatos.SelectedDataKey["NOMBRE_COMPLETO"].ToString();
-            //DateTime fechaExpedicion = Convert.ToDateTime(GvDatos.SelectedDataKey["FECHA_NACIMIENTO"].ToString());
-            //TxtFechaNacimiento.Text = fechaExpedicion.ToString("dd/MM/yyyy");
-            //TxtCiudad.Text = GvDatos.SelectedDataKey["CIUDAD_PROCEDENCIA"].ToString();
-            //TxtMail.Text = GvDatos.SelectedDataKey["CORREOELECTRONICO"].ToString();
+            HfId.Value = GvDatos.SelectedDataKey["CAMPANNASID"].ToString();
+            var h = GvDatos.SelectedDataKey["CAMPANNASNOMBRE"].ToString();
+            h = GvDatos.SelectedDataKey["CAMPANNASAPELLIDOS"].ToString();
+            h = GvDatos.SelectedDataKey["CAMPANNASTELEFONO"].ToString();
+           h = GvDatos.SelectedDataKey["CAMPANNASDIRECCION"].ToString();
+            h = GvDatos.SelectedDataKey["CAMPANNAPRODUCTO"].ToString();
+            h = GvDatos.SelectedDataKey["CAMPANNACODIGO"].ToString();
         }
 
         private void ActivarBotones()
